@@ -1,12 +1,12 @@
-FROM node:18.20.4 as builder
+FROM node:20-alpine AS builder
 
 WORKDIR /home/zeta/node
 
-COPY bitcoin-sidecar/js/* .
+COPY js/* .
 
 RUN npm install && npm install typescript -g && tsc
 
-FROM node:alpine
+FROM node:20-alpine
 
 COPY --from=builder /home/zeta/node/dist ./dist
 COPY --from=builder /home/zeta/node/node_modules ./node_modules
